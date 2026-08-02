@@ -1,0 +1,43 @@
+generated: '2026-07-21'
+method: searched
+source: live probe of /.well-known/ on Wintermute hosts
+notes: >-
+  The public marketing host www.wintermute.com is a single-page app that returns
+  a 200 HTML shell for every path (including /.well-known/*), so its well-known
+  responses are NOT real discovery documents and are recorded as none. The real
+  documents live on the institutional trading portal's identity provider,
+  trade-login.wintermute.com (Auth0-backed OIDC / OAuth2 authorization server for
+  node.wintermute.com).
+hosts:
+- host: https://www.wintermute.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200-soft
+    file: null
+    note: SPA HTML shell, not a real security.txt
+  - path: /.well-known/openid-configuration
+    status: 200-soft
+    file: null
+    note: SPA HTML shell, not real OIDC discovery
+  - path: /.well-known/oauth-authorization-server
+    status: 200-soft
+    file: null
+  - path: /.well-known/api-catalog
+    status: 200-soft
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 200-soft
+    file: null
+- host: https://trade-login.wintermute.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: wintermute-trade-login-openid-configuration.json
+    note: real Auth0 OIDC discovery document (application/json)
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: wintermute-trade-login-oauth-authorization-server.json
+    note: real RFC 8414 authorization server metadata (application/json)
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
